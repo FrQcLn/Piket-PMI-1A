@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Piket Kelas PMI 1A</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .tab-pane {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease-in-out;
+        }
+        .tab-pane.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .custom-checkbox {
+            accent-color: #059669;
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
+
+    <header class="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+                
+                <!-- Title & Class Tag -->
+                <div class="flex items-center space-x-3 text-center md:text-left">
+                    <div class="p-2.5 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner hidden sm:block">
+                        <i class="fa-solid fa-clipboard-check text-2xl text-emerald-300"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-center md:justify-start space-x-2">
+                            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight">Monitoring Piket Kelas PMI 1A</h1>
+                            <span class="bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 text-xs px-2.5 py-0.5 rounded-full font-semibold">2026</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-emerald-100/90 font-light mt-0.5">Sistem Informasi, Rotasi Jadwal 3 Minggu & Checklist Harian Ruangan</p>
+                    </div>
+                </div>
+
+                <!-- Date & Today's Duty Summary -->
+                <div class="flex items-center space-x-3 bg-emerald-950/40 border border-emerald-500/20 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm">
+                    <i class="fa-regular fa-calendar-days text-emerald-400 text-base"></i>
+                    <div>
+                        <span class="block text-[10px] text-emerald-300 uppercase tracking-wider font-semibold">Tanggal Sistem</span>
+                        <span id="current-date-display" class="font-bold text-white">Memuat tanggal...</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tab Navigation Buttons -->
+            <nav class="flex space-x-1 sm:space-x-2 mt-3.5 border-t border-emerald-700/50 pt-2.5 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('checklist')" id="tab-btn-checklist" class="tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center space-x-2 transition-all bg-white text-emerald-900 shadow">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Checklist Ruangan</span>
+                </button>
+                <button onclick="switchTab('jadwal')" id="tab-btn-jadwal" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center space-x-2 transition-all text-emerald-100 hover:bg-white/10">
+                    <i class="fa-solid fa-calendar-user"></i>
+                    <span>Jadwal Piket (Rotasi 3 Wk)</span>
+                </button>
+                <button onclick="switchTab('sop')" id="tab-btn-sop" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center space-x-2 transition-all text-emerald-100 hover:bg-white/10">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <span>SOP & Absensi BAAK</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+        <!-- ==================== TAB 1: CHECKLIST RUANGAN KELAS ==================== -->
+        <div id="tab-checklist" class="tab-pane active space-y-6">
+            
+            <!-- Special Notice Banner -->
+            <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-2xl p-4 shadow-sm text-slate-800 flex items-start space-x-3">
+                <div class="text-amber-600 text-lg sm:text-xl mt-0.5 flex-shrink-0">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="text-xs sm:text-sm leading-relaxed">
+                    <span class="font-bold text-amber-900 block sm:inline">📌 Ketentuan Kuliah Berturut-turut:</span>
+                    <span>Kalau ada dua sesi kuliah secara langsung/berturut-turut, piket AC, purifier, serta disinfektan <strong>tidak perlu dilakukan setiap sesi</strong>. Tugas lainnya, seperti pembersihan papan tulis, dsb dilaksanakan setiap sesi.</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-chalkboard-user text-emerald-600"></i>
+                            <span>Checklist Piket Ruangan Kelas</span>
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Kelola dan centang tugas sebelum & sesudah tiap sesi perkuliahan.</p>
+                    </div>
+
+                    <!-- Date Selection & Officer Badge -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex-1 sm:flex-initial">
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Pilih Tanggal Piket</label>
+                            <input type="date" id="checklist-date-picker" onchange="loadDateChecklist()" class="w-full sm:w-auto border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+
+                        <div class="flex-1 sm:flex-initial">
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Petugas Piket Bertugas</label>
+                            <div id="duty-officers-display" class="bg-emerald-50 border border-emerald-200 text-emerald-900 px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center space-x-1.5">
+                                <i class="fa-solid fa-user-group text-emerald-600"></i>
+                                <span id="duty-officers-text">Menghitung petugas...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Daily Progress Bar -->
+                <div class="mt-4 pt-1">
+                    <div class="flex justify-between items-center text-xs font-semibold text-slate-600 mb-1.5">
+                        <span class="flex items-center space-x-1.5">
+                            <i class="fa-solid fa-chart-line text-emerald-600"></i>
+                            <span>Progress Total Piket Hari Ini</span>
+                        </span>
+                        <span id="overall-progress-text" class="font-bold text-emerald-700">0% (0 / 22 Tugas)</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
+                        <div id="overall-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- SESI 1 CARD -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="bg-slate-800 text-white px-5 py-3.5 flex justify-between items-center border-b border-slate-700">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">1</span>
+                            <div>
+                                <h3 class="font-bold text-sm sm:text-base">Sesi Perkuliahan 1</h3>
+                                <p class="text-[11px] text-slate-300">Sesi Pertama / Pagi (11 Task)</p>
+                            </div>
+                        </div>
+                        <span id="sesi1-badge" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            0 / 11 Selesai
+                        </span>
+                    </div>
+
+                    <div class="p-4 sm:p-5 space-y-5 flex-grow">
+                        <!-- Sesi 1 - Sebelum Kelas -->
+                        <div>
+                            <div class="flex items-center space-x-2 mb-3 pb-1.5 border-b border-emerald-100">
+                                <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-bold">SEBELUM KELAS</span>
+                                <span class="text-xs text-slate-500 font-medium">Persiapan & Menyalakan Alat</span>
+                            </div>
+                            <div class="space-y-2" id="tasks-s1-before">
+                                <!-- JS Auto Render -->
+                            </div>
+                        </div>
+
+                        <!-- Sesi 1 - Sesudah Kelas -->
+                        <div>
+                            <div class="flex items-center space-x-2 mb-3 pb-1.5 border-b border-indigo-100">
+                                <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[11px] font-bold">SESUDAH KELAS</span>
+                                <span class="text-xs text-slate-500 font-medium">Pembersihan & Mematikan Alat</span>
+                            </div>
+                            <div class="space-y-2" id="tasks-s1-after">
+                                <!-- JS Auto Render -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SESI 2 CARD -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+                    <div class="bg-slate-800 text-white px-5 py-3.5 flex justify-between items-center border-b border-slate-700">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">2</span>
+                            <div>
+                                <h3 class="font-bold text-sm sm:text-base">Sesi Perkuliahan 2</h3>
+                                <p class="text-[11px] text-slate-300">Sesi Kedua / Siang (11 Task)</p>
+                            </div>
+                        </div>
+                        <span id="sesi2-badge" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            0 / 11 Selesai
+                        </span>
+                    </div>
+
+                    <div class="p-4 sm:p-5 space-y-5 flex-grow">
+                        <!-- Sesi 2 - Sebelum Kelas -->
+                        <div>
+                            <div class="flex items-center space-x-2 mb-3 pb-1.5 border-b border-teal-100">
+                                <span class="px-2 py-0.5 rounded bg-teal-100 text-teal-800 text-[11px] font-bold">SEBELUM KELAS</span>
+                                <span class="text-xs text-slate-500 font-medium">Persiapan Sesi Kedua</span>
+                            </div>
+                            <div class="space-y-2" id="tasks-s2-before">
+                                <!-- JS Auto Render -->
+                            </div>
+                        </div>
+
+                        <!-- Sesi 2 - Sesudah Kelas -->
+                        <div>
+                            <div class="flex items-center space-x-2 mb-3 pb-1.5 border-b border-purple-100">
+                                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[11px] font-bold">SESUDAH KELAS</span>
+                                <span class="text-xs text-slate-500 font-medium">Penutupan & Mematikan Alat</span>
+                            </div>
+                            <div class="space-y-2" id="tasks-s2-after">
+                                <!-- JS Auto Render -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Notes & Report Action Buttons -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1 flex items-center space-x-1">
+                        <i class="fa-regular fa-note-sticky text-emerald-600"></i>
+                        <span>Catatan Tambahan Piket Hari Ini (Opsional):</span>
+                    </label>
+                    <textarea id="checklist-notes" oninput="saveChecklistToStorage()" rows="2" placeholder="Contoh: Remote AC baterai lemah, spidol hitam habis, kunci kelas diserahkan ke BAAK..." class="w-full text-xs p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50"></textarea>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-slate-100">
+                    <div class="text-xs text-slate-500 flex items-center space-x-1.5">
+                        <i class="fa-solid fa-floppy-disk text-emerald-600"></i>
+                        <span>Tersimpan otomatis di browser (LocalStorage).</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 w-full sm:w-auto">
+                        <button onclick="openResetModal()" class="flex-1 sm:flex-none px-4 py-2 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl transition-all">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Hari Ini
+                        </button>
+                        <button onclick="copyWAFormat()" class="flex-1 sm:flex-none px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>Salin Laporan WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== TAB 2: JADWAL PIKET KELAS ==================== -->
+        <div id="tab-jadwal" class="tab-pane space-y-6">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-users-viewfinder text-emerald-600"></i>
+                                <span>Jadwal Piket Rotasi 3 Minggu</span>
+                            </h2>
+                            <span id="cycle-badge-title" class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold">
+                                Siklus 0 (Bulan September)
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">Total 15 Hari Kerja per Siklus. Pasangan 14 & 15 dirotasi dari kelompok Minggu ke-2.</p>
+                    </div>
+
+                    <!-- Search Bar & Cycle Offset Switcher -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div class="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
+                            <button onclick="changeCycleOffset(-1)" class="px-2.5 py-1 bg-white hover:bg-slate-200 rounded-lg shadow-sm text-slate-700">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <span id="cycle-offset-label" class="px-2 text-emerald-900 font-bold">Siklus #0</span>
+                            <button onclick="changeCycleOffset(1)" class="px-2.5 py-1 bg-white hover:bg-slate-200 rounded-lg shadow-sm text-slate-700">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="search-student-input" oninput="renderScheduleCards()" placeholder="Cari nama mahasiswa..." class="w-full text-xs pl-9 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50 font-medium">
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3 top-2.5 text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cycle 0 Rotation Explanation Banner -->
+                <div class="mt-4 p-3.5 bg-indigo-50 border border-indigo-200 rounded-xl flex items-start space-x-3 text-xs text-indigo-950">
+                    <i class="fa-solid fa-rotate text-indigo-600 text-base mt-0.5 flex-shrink-0"></i>
+                    <div class="space-y-1">
+                        <span class="font-bold block text-indigo-900">🔄 Ketentuan Pasangan 14 & 15 Siklus 0 (Bulan September):</span>
+                        <p>Khusus Siklus 0, <strong>Kamis W3 (Pasangan 14)</strong> bertugas <em>Muhammad Ilwan & Muhammad Rofiq</em>, dan <strong>Jumat W3 (Pasangan 15)</strong> bertugas <em>Jasmine Ramadhani Boimau & Mahrin Safa Zuhur</em>. Pada siklus-siklus selanjutnya (#1, #2, dst.), Pasangan 14 dan 15 berpindah secara bergilir dari kelompok Minggu ke-2.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule Cycle Container -->
+            <div id="schedule-cycles-container" class="space-y-6">
+                <!-- JS Auto Generated Cycles -->
+            </div>
+
+        </div>
+
+        <!-- ==================== TAB 3: SOP & PILAR TUGAS PIKET ==================== -->
+        <div id="tab-sop" class="tab-pane space-y-6">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open-reader text-emerald-600"></i>
+                    <span>Panduan & SOP Piket Kelas</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Pedoman standar operasional untuk Piket Absensi BAAK dan Google Form Laporan Tatap Muka.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- SOP 1: BAAK Presensi Tertulis -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 pb-3 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base">1. Piket Presensi Tertulis (BAAK)</h3>
+                                <p class="text-xs text-slate-500">Tata cara pengelolaan form fisik presensi perkuliahan</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 space-y-3.5 text-xs text-slate-700">
+                            
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-slate-800 block mb-1">📋 Pengambilan Form:</span>
+                                <p>Form presensi diambil <strong>maksimal 10 menit</strong> sebelum tatap muka di ruang BAAK.</p>
+                            </div>
+
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-slate-800 block mb-2">🏷️ Ketentuan Kode Status Kehadiran:</span>
+                                
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 flex items-start space-x-2">
+                                        <span class="font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded">H</span>
+                                        <div>
+                                            <strong class="block text-slate-800">Hadir</strong>
+                                            <span class="text-slate-500">Datang tatap muka tepat waktu.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 flex items-start space-x-2">
+                                        <span class="font-bold px-2 py-0.5 bg-amber-100 text-amber-800 rounded">T</span>
+                                        <div>
+                                            <strong class="block text-slate-800">Terlambat</strong>
+                                            <span class="text-slate-500">Datang > 5 menit (tidak memuat paraf / dicoret apabila terlanjur diisi).</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 flex items-start space-x-2">
+                                        <span class="font-bold px-2 py-0.5 bg-blue-100 text-blue-800 rounded">S</span>
+                                        <div>
+                                            <strong class="block text-slate-800">Sakit</strong>
+                                            <span class="text-slate-500">Sakit / periksa kesehatan.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 flex items-start space-x-2">
+                                        <span class="font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded">I</span>
+                                        <div>
+                                            <strong class="block text-slate-800">Izin</strong>
+                                            <span class="text-slate-500">Izin selain sakit/periksa kesehatan.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 flex items-start space-x-2 sm:col-span-2">
+                                        <span class="font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded">A</span>
+                                        <div>
+                                            <strong class="block text-slate-800">Alpha / Tanpa Keterangan</strong>
+                                            <span class="text-slate-500">Tidak mengikuti tatap muka tanpa keterangan alasannya.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-slate-800 block mb-1">📥 Pengembalian Form:</span>
+                                <p>Form presensi dikembalikan <strong>setelah tatap muka</strong> di ruang BAAK.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOP 2: GForm Laporan TM Kuliah -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 pb-3 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold">
+                                <i class="fa-solid fa-laptop-file"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800 text-base">2. Piket GForm Laporan TM Kuliah</h3>
+                                <p class="text-xs text-slate-500">Pelaporan online kedatangan dosen tatap muka</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 space-y-3.5 text-xs text-slate-700">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <h4 class="font-bold text-slate-800 text-sm">📌 Ketentuan Pelaporan GForm:</h4>
+                                <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
+                                    <li>Mahasiswa piket melaporkan kedatangan dosen pada <strong>tatap muka kuliah</strong>.</li>
+                                    <li><strong class="text-slate-800">Pendalaman tidak perlu dilaporkan.</strong></li>
+                                    <li>Pelaporan dilakukan melalui link Google Form Laporan TM kuliah resmi.</li>
+                                </ul>
+                            </div>
+
+                            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 space-y-1">
+                                <div class="font-bold text-sm flex items-center space-x-1">
+                                    <i class="fa-solid fa-stopwatch text-amber-600"></i>
+                                    <span>Batas Waktu Pelaporan:</span>
+                                </div>
+                                <p class="text-xs">Pelaporan dilakukan <strong>maksimal 5 menit</strong> setelah tatap muka berakhir.</p>
+                            </div>
+
+                            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 space-y-2">
+                                <div class="font-bold text-sm flex items-center space-x-1">
+                                    <i class="fa-solid fa-check-double text-emerald-600"></i>
+                                    <span>Laporan WhatsApp Kelas:</span>
+                                </div>
+                                <p class="text-xs">Gunakan tombol <strong>"Salin Laporan WhatsApp"</strong> pada Tab Checklist untuk melaporkan rekap harian ke grup WhatsApp kelas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Custom Confirmation Modal (Replacing native confirm dialogs) -->
+    <div id="reset-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 transform transition-all space-y-4">
+            <div class="flex items-center space-x-3 text-rose-600">
+                <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm">Konfirmasi Reset Checklist</h3>
+                    <p class="text-[11px] text-slate-500">Tindakan ini tidak dapat dibatalkan</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Apakah Anda yakin ingin menghapus semua centang dan catatan piket untuk tanggal <strong id="modal-reset-date" class="text-slate-800"></strong>?
+            </p>
+
+            <div class="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+                <button onclick="closeResetModal()" class="px-4 py-2 border border-slate-300 hover:bg-slate-100 rounded-xl text-xs font-semibold text-slate-700 transition-all">
+                    Batal
+                </button>
+                <button onclick="executeResetChecklist()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow transition-all">
+                    Ya, Reset Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <script>
+        // Primary 13 Pairs List
+        const PRIMARY_PAIRS = [
+            { id: 1, name1: "Adyuta Zaky Alaudin", name2: "Ahmed Zildan Zamroni" },
+            { id: 2, name1: "Alfian Putra Herdiansyah", name2: "Bani Maslukhi Tamam" },
+            { id: 3, name1: "Bilal Atha Nur Hidayat", name2: "David Ryu Saputra" },
+            { id: 4, name1: "Faruq Callan Mirjahaan", name2: "Galuh Yuga Pratama Suwandi" },
+            { id: 5, name1: "Ghazzy Al Barra Arsnad", name2: "Hirzi Adzka Nafidz" },
+            { id: 6, name1: "Muhammad Ilwan", name2: "Muhammad Rofiq" },
+            { id: 7, name1: "Rafy Ahmad Sodikin", name2: "Rilo Pambudi Putra Listiono" },
+            { id: 8, name1: "Rizky Alwiansyah Harahap", name2: "Surya Eddy Wijaya" },
+            { id: 9, name1: "Cicih Sapira", name2: "Fiqrotul Mawaddah Effendi" },
+            { id: 10, name1: "Jasmine Ramadhani Boimau", name2: "Mahrin Safa Zuhur" },
+            { id: 11, name1: "Marsha Abelita Zaharani", name2: "Nor Khosiah" },
+            { id: 12, name1: "Nur Cholifah", name2: "Rina Puspita Sari" },
+            { id: 13, name1: "Royya Qurrotun Hayah", name2: "Yeyen Srisulastri" }
+        ];
+
+        // Week 2 Pairs Group (Pairs 6 to 10) for rotating Pairs 14 & 15
+        const WEEK2_GROUP_PAIRS = [
+            PRIMARY_PAIRS[5], // Index 0 -> Pair 6: Ilwan & Rofiq
+            PRIMARY_PAIRS[6], // Index 1 -> Pair 7: Rafy & Rilo
+            PRIMARY_PAIRS[7], // Index 2 -> Pair 8: Rizky & Surya
+            PRIMARY_PAIRS[8], // Index 3 -> Pair 9: Cicih & Fiqrotul
+            PRIMARY_PAIRS[9]  // Index 4 -> Pair 10: Jasmine & Mahrin
+        ];
+
+        // Anchor Date: Monday, Sept 7, 2026 (Start of Cycle 0 Week 1)
+        const ANCHOR_DATE = new Date(2026, 8, 7); 
+        let currentViewingCycleOffset = 0;
+
+        // Task Items for Room Duty Checklist
+        const TASKS_BEFORE = [
+            { id: "lcd_on", label: "Proyektor LCD dinyalakan sebelum tatap muka", icon: "fa-solid fa-desktop" },
+            { id: "ac_on", label: "AC dinyalakan sebelum tatap muka", icon: "fa-solid fa-snowflake" },
+            { id: "board_prep", label: "Spidol, penghapus, dan papan tulis siap digunakan", icon: "fa-solid fa-pen-line" },
+            { id: "disinfectant", label: "Kursi & meja dosen serta kursi mahasiswa disemprot disinfektan", icon: "fa-solid fa-spray-can-sparkles" },
+            { id: "purifier_on", label: "Perangkat Air Purifier dinyalakan", icon: "fa-solid fa-wind" },
+            { id: "turbo_on", label: "Perangkat Turbo dinyalakan mulai sebelum tatap muka (~45 menit)", icon: "fa-solid fa-gauge-high" }
+        ];
+
+        const TASKS_AFTER = [
+            { id: "lcd_off", label: "Proyektor LCD dimatikan selesai tatap muka", icon: "fa-solid fa-power-off" },
+            { id: "ac_off", label: "AC dimatikan selesai tatap muka", icon: "fa-solid fa-snowflake" },
+            { id: "board_clean", label: "Papan tulis dibersihkan & spidol/penghapus dirapikan", icon: "fa-solid fa-eraser" },
+            { id: "purifier_off", label: "Perangkat Air Purifier dimatikan", icon: "fa-solid fa-plug-circle-xmark" },
+            { id: "turbo_off", label: "Perangkat Turbo dimatikan", icon: "fa-solid fa-circle-stop" }
+        ];
+
+        function getCyclePairs(cycleIdx) {
+            // Lineup 1..13 mapped directly to Primary Pairs 1..13
+            const lineup = PRIMARY_PAIRS.map(p => ({ ...p, isExtra: false }));
+
+            // Corrected Rotation Logic for Cycle c:
+            // Siklus 0 (Bulan September W3):
+            // - Kamis W3 (Pasangan 14): Index 0 in W2 Group -> Pair 6: Ilwan & Rofiq
+            // - Jumat W3 (Pasangan 15): Index 4 in W2 Group -> Pair 10: Jasmine & Mahrin
+            //
+            // Formula for Cycle `c`:
+            // Pair 14 W2 Index = (0 + c) % 5
+            // Pair 15 W2 Index = (4 + c) % 5
+            
+            const w2Idx14 = ((0 + cycleIdx) % 5 + 5) % 5;
+            const w2Idx15 = ((4 + cycleIdx) % 5 + 5) % 5;
+
+            const pair14Obj = WEEK2_GROUP_PAIRS[w2Idx14];
+            const pair15Obj = WEEK2_GROUP_PAIRS[w2Idx15];
+
+            lineup.push({
+                id: 14,
+                name1: pair14Obj.name1,
+                name2: pair14Obj.name2,
+                isExtra: true,
+                basePairId: pair14Obj.id
+            });
+
+            lineup.push({
+                id: 15,
+                name1: pair15Obj.name1,
+                name2: pair15Obj.name2,
+                isExtra: true,
+                basePairId: pair15Obj.id
+            });
+
+            return lineup;
+        }
+
+        function getDutyOfficersForDate(dateObj) {
+            const dayOfWeek = dateObj.getDay(); // 0: Sun, 1: Mon, ... 6: Sat
+            
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                return { pair: null, message: "Akhir Pekan (Tidak Ada Piket Perkuliahan)", cycleIdx: 0, dayIdx: -1 };
+            }
+
+            const diffTime = dateObj - ANCHOR_DATE;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            const fullWeeks = Math.floor(diffDays / 7);
+            const extraDays = ((diffDays % 7) + 7) % 7;
+            const workingDays = (fullWeeks * 5) + Math.min(extraDays, 5);
+
+            const cycleIdx = Math.floor(workingDays / 15);
+            const workingDayInCycle = ((workingDays % 15) + 15) % 15;
+
+            const cycleLineup = getCyclePairs(cycleIdx);
+            const pair = cycleLineup[workingDayInCycle];
+
+            return {
+                pair: pair,
+                message: `${pair.name1} & ${pair.name2}`,
+                cycleIdx: cycleIdx,
+                dayIdx: workingDayInCycle
+            };
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initDatePicker();
+            renderChecklistContainers();
+            loadDateChecklist();
+            renderScheduleCards();
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-white', 'text-emerald-900', 'shadow');
+                btn.classList.add('text-emerald-100', 'hover:bg-white/10');
+            });
+
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+
+            if (activeTab && activeBtn) {
+                activeTab.classList.add('active');
+                activeBtn.classList.add('active', 'bg-white', 'text-emerald-900', 'shadow');
+                activeBtn.classList.remove('text-emerald-100', 'hover:bg-white/10');
+            }
+        }
+
+        function initDatePicker() {
+            const picker = document.getElementById('checklist-date-picker');
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            picker.value = `${yyyy}-${mm}-${dd}`;
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date-display').innerText = today.toLocaleDateString('id-ID', options);
+        }
+
+        function renderChecklistContainers() {
+            document.getElementById('tasks-s1-before').innerHTML = renderTaskListHTML('s1_b', TASKS_BEFORE);
+            document.getElementById('tasks-s1-after').innerHTML = renderTaskListHTML('s1_a', TASKS_AFTER);
+            document.getElementById('tasks-s2-before').innerHTML = renderTaskListHTML('s2_b', TASKS_BEFORE);
+            document.getElementById('tasks-s2-after').innerHTML = renderTaskListHTML('s2_a', TASKS_AFTER);
+        }
+
+        function renderTaskListHTML(prefix, taskList) {
+            return taskList.map(t => `
+                <label for="${prefix}_${t.id}" class="flex items-start space-x-3 p-2.5 rounded-xl border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 transition-all cursor-pointer bg-slate-50/50">
+                    <input type="checkbox" id="${prefix}_${t.id}" onchange="onTaskToggle()" class="custom-checkbox mt-0.5 rounded focus:ring-emerald-500">
+                    <div class="text-xs text-slate-700 leading-snug">
+                        <span class="font-medium flex items-center gap-1.5">
+                            <i class="${t.icon} text-emerald-600 text-xs w-4"></i>
+                            ${t.label}
+                        </span>
+                    </div>
+                </label>
+            `).join('');
+        }
+
+        function loadDateChecklist() {
+            const dateStr = document.getElementById('checklist-date-picker').value;
+            if (!dateStr) return;
+
+            const parts = dateStr.split('-');
+            const selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+
+            const officerInfo = getDutyOfficersForDate(selectedDate);
+            document.getElementById('duty-officers-text').innerText = officerInfo.message;
+
+            const storageKey = `piket_pmi1a_${dateStr}`;
+            const savedData = localStorage.getItem(storageKey);
+
+            document.querySelectorAll('.custom-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('checklist-notes').value = '';
+
+            if (savedData) {
+                try {
+                    const parsed = JSON.parse(savedData);
+                    if (parsed.checkboxes) {
+                        Object.keys(parsed.checkboxes).forEach(id => {
+                            const cb = document.getElementById(id);
+                            if (cb) cb.checked = parsed.checkboxes[id];
+                        });
+                    }
+                    if (parsed.notes) {
+                        document.getElementById('checklist-notes').value = parsed.notes;
+                    }
+                } catch (e) {
+                    console.error("Error parsing stored data", e);
+                }
+            }
+
+            updateProgressBars();
+        }
+
+        function saveChecklistToStorage() {
+            const dateStr = document.getElementById('checklist-date-picker').value;
+            if (!dateStr) return;
+
+            const checkboxesState = {};
+            document.querySelectorAll('.custom-checkbox').forEach(cb => {
+                checkboxesState[cb.id] = cb.checked;
+            });
+
+            const notesState = document.getElementById('checklist-notes').value;
+
+            const dataToSave = {
+                date: dateStr,
+                checkboxes: checkboxesState,
+                notes: notesState,
+                updatedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(`piket_pmi1a_${dateStr}`, JSON.stringify(dataToSave));
+            updateProgressBars();
+        }
+
+        function onTaskToggle() {
+            saveChecklistToStorage();
+        }
+
+        function updateProgressBars() {
+            const allCheckboxes = document.querySelectorAll('.custom-checkbox');
+            const totalTasks = allCheckboxes.length;
+            let checkedCount = 0;
+
+            allCheckboxes.forEach(cb => {
+                if (cb.checked) checkedCount++;
+            });
+
+            const percentage = totalTasks > 0 ? Math.round((checkedCount / totalTasks) * 100) : 0;
+
+            document.getElementById('overall-progress-text').innerText = `${percentage}% (${checkedCount} / ${totalTasks} Tugas)`;
+            document.getElementById('overall-progress-bar').style.width = `${percentage}%`;
+
+            const s1Count = countCheckedByPrefix('s1_');
+            document.getElementById('sesi1-badge').innerText = `${s1Count} / 11 Selesai`;
+
+            const s2Count = countCheckedByPrefix('s2_');
+            document.getElementById('sesi2-badge').innerText = `${s2Count} / 11 Selesai`;
+        }
+
+        function countCheckedByPrefix(prefix) {
+            let count = 0;
+            document.querySelectorAll(`.custom-checkbox[id^="${prefix}"]`).forEach(cb => {
+                if (cb.checked) count++;
+            });
+            return count;
+        }
+
+        function openResetModal() {
+            const dateStr = document.getElementById('checklist-date-picker').value;
+            if (!dateStr) return;
+            document.getElementById('modal-reset-date').innerText = dateStr;
+            document.getElementById('reset-modal').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('reset-modal').classList.add('hidden');
+        }
+
+        function executeResetChecklist() {
+            const dateStr = document.getElementById('checklist-date-picker').value;
+            if (dateStr) {
+                localStorage.removeItem(`piket_pmi1a_${dateStr}`);
+                loadDateChecklist();
+                showToast("Checklist berhasil di-reset!", "info");
+            }
+            closeResetModal();
+        }
+
+        function copyWAFormat() {
+            const dateStr = document.getElementById('checklist-date-picker').value;
+            const parts = dateStr.split('-');
+            const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            const dateFormatted = dateObj.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            const officersText = document.getElementById('duty-officers-text').innerText;
+            const notesText = document.getElementById('checklist-notes').value || "-";
+
+            const s1Count = countCheckedByPrefix('s1_');
+            const s2Count = countCheckedByPrefix('s2_');
+
+            let report = `*LAPORAN PIKET RUANGAN KELAS PMI 1A*\n`;
+            report += `📅 *Hari/Tanggal:* ${dateFormatted}\n`;
+            report += `👥 *Petugas Piket:* ${officersText}\n\n`;
+            
+            report += `*STATUS RUANGAN KELAS:*\n`;
+            report += `1️⃣ *Sesi Perkuliahan 1:* ${s1Count}/11 Tugas ${s1Count === 11 ? '✅ Selesai' : '⏳ Terisi'}\n`;
+            report += `2️⃣ *Sesi Perkuliahan 2:* ${s2Count}/11 Tugas ${s2Count === 11 ? '✅ Selesai' : '⏳ Terisi'}\n\n`;
+
+            report += `📝 *Catatan Tambahan:* ${notesText}\n\n`;
+            report += `📌 _Laporan via Monitoring Piket Kelas PMI 1A_`;
+
+            const tempInput = document.createElement('textarea');
+            tempInput.value = report;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast("Laporan WhatsApp berhasil disalin!", "success");
+            } catch (err) {
+                showToast("Gagal menyalin teks otomatis", "error");
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        function changeCycleOffset(delta) {
+            currentViewingCycleOffset += delta;
+            renderScheduleCards();
+        }
+
+        function renderScheduleCards() {
+            const container = document.getElementById('schedule-cycles-container');
+            const searchQuery = (document.getElementById('search-student-input').value || '').toLowerCase();
+
+            const today = new Date();
+            const currentInfo = getDutyOfficersForDate(today);
+            const activeCycleIdx = currentInfo.cycleIdx + currentViewingCycleOffset;
+
+            document.getElementById('cycle-offset-label').innerText = `Siklus #${activeCycleIdx}`;
+            
+            if (activeCycleIdx === 0) {
+                document.getElementById('cycle-badge-title').innerText = `Siklus 0 (Bulan September)`;
+                document.getElementById('cycle-badge-title').className = "bg-emerald-100 text-emerald-800 text-xs px-2.5 py-0.5 rounded-full font-bold";
+            } else {
+                document.getElementById('cycle-badge-title').innerText = `Melihat Siklus #${activeCycleIdx}`;
+                document.getElementById('cycle-badge-title').className = "bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full font-bold";
+            }
+
+            const cycleLineup = getCyclePairs(activeCycleIdx);
+
+            const weeks = [
+                {
+                    title: "Minggu Rotasi 1",
+                    badge: "Pasangan 1 - 5",
+                    items: [
+                        { day: "Senin", pair: cycleLineup[0] },
+                        { day: "Selasa", pair: cycleLineup[1] },
+                        { day: "Rabu", pair: cycleLineup[2] },
+                        { day: "Kamis", pair: cycleLineup[3] },
+                        { day: "Jumat", pair: cycleLineup[4] }
+                    ]
+                },
+                {
+                    title: "Minggu Rotasi 2",
+                    badge: "Pasangan 6 - 10",
+                    items: [
+                        { day: "Senin", pair: cycleLineup[5] },
+                        { day: "Selasa", pair: cycleLineup[6] },
+                        { day: "Rabu", pair: cycleLineup[7] },
+                        { day: "Kamis", pair: cycleLineup[8] },
+                        { day: "Jumat", pair: cycleLineup[9] }
+                    ]
+                },
+                {
+                    title: "Minggu Rotasi 3",
+                    badge: "Pasangan 11 - 15",
+                    items: [
+                        { day: "Senin", pair: cycleLineup[10] },
+                        { day: "Selasa", pair: cycleLineup[11] },
+                        { day: "Rabu", pair: cycleLineup[12] },
+                        { day: "Kamis", pair: cycleLineup[13] },
+                        { day: "Jumat", pair: cycleLineup[14] }
+                    ]
+                }
+            ];
+
+            let html = '';
+
+            weeks.forEach((week, wIdx) => {
+                let weekHasMatch = false;
+
+                const itemsHTML = week.items.map(item => {
+                    const match1 = item.pair.name1.toLowerCase().includes(searchQuery);
+                    const match2 = item.pair.name2.toLowerCase().includes(searchQuery);
+                    const isMatched = searchQuery && (match1 || match2);
+
+                    if (isMatched || !searchQuery) weekHasMatch = true;
+
+                    const highlightClass1 = match1 && searchQuery ? 'bg-amber-200 text-amber-900 font-bold px-1 rounded' : '';
+                    const highlightClass2 = match2 && searchQuery ? 'bg-amber-200 text-amber-900 font-bold px-1 rounded' : '';
+                    
+                    let cardBorder = 'border border-slate-200 bg-white';
+                    if (isMatched) {
+                        cardBorder = 'border-2 border-amber-400 bg-amber-50/60 shadow-md';
+                    } else if (item.pair.isExtra) {
+                        cardBorder = 'border border-indigo-200 bg-indigo-50/40';
+                    }
+
+                    return `
+                        <div class="p-4 rounded-xl ${cardBorder} transition-all relative">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">${item.day}</span>
+                                <span class="text-[10px] font-bold ${item.pair.isExtra ? 'text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded-full' : 'text-slate-400'}">
+                                    ${item.pair.isExtra ? `Pasangan ${item.pair.id} (Rotasi W2)` : `Pasangan ${item.pair.id}`}
+                                </span>
+                            </div>
+                            <div class="space-y-1 text-xs">
+                                <div class="flex items-center space-x-2 text-slate-800">
+                                    <i class="fa-solid fa-user-check text-emerald-600 text-xs"></i>
+                                    <span class="${highlightClass1}">${item.pair.name1}</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-slate-800">
+                                    <i class="fa-solid fa-user-check text-emerald-600 text-xs"></i>
+                                    <span class="${highlightClass2}">${item.pair.name2}</span>
+                                </div>
+                            </div>
+                            ${item.pair.isExtra ? `
+                                <div class="mt-2.5 pt-1.5 border-t border-indigo-100 text-[10px] text-indigo-700 font-medium flex items-center justify-between">
+                                    <span>🔄 Asal: Kelompok W2</span>
+                                    <span class="font-bold">Pair #${item.pair.basePairId}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+
+                if (weekHasMatch || !searchQuery) {
+                    html += `
+                        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-4">
+                            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-3 h-3 rounded-full ${wIdx === 2 ? 'bg-indigo-600' : 'bg-emerald-600'}"></span>
+                                    <h3 class="font-bold text-slate-800 text-base">${week.title}</h3>
+                                </div>
+                                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                                    ${week.badge}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                                ${itemsHTML}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!html) {
+                html = `
+                    <div class="bg-white rounded-2xl p-8 text-center border border-slate-200">
+                        <i class="fa-solid fa-user-slash text-3xl text-slate-300 mb-2"></i>
+                        <p class="text-sm font-semibold text-slate-600">Mahasiswa dengan nama "${searchQuery}" tidak ditemukan.</p>
+                        <p class="text-xs text-slate-400 mt-1">Pastikan ejaan nama sesuai dengan daftar piket resmi PMI 1A.</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            let icon = 'fa-circle-info';
+            let bg = 'bg-slate-800 text-white';
+
+            if (type === 'success') {
+                icon = 'fa-circle-check';
+                bg = 'bg-emerald-700 text-white';
+            } else if (type === 'error') {
+                icon = 'fa-triangle-exclamation';
+                bg = 'bg-rose-700 text-white';
+            }
+
+            toast.className = `flex items-center space-x-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-bold transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto ${bg}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span>${message}</span>`;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
