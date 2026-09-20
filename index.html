@@ -165,8 +165,8 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <div class="text-xs sm:text-sm leading-relaxed">
-                    <span class="font-bold text-amber-900 block sm:inline">📌 Ketentuan Dua Sesi Kuliah Berturut-turut:</span>
-                    <span class="text-slate-700">Jika terdapat dua sesi kuliah secara langsung, piket AC, purifier, serta disinfektan <strong>tidak perlu diulang / dimatikan</strong> pada sesi berikutnya. Namun, pembersihan papan tulis dan persiapan spidol <strong>wajib dilakukan setiap sesi</strong>.</span>
+                    <span class="font-bold text-amber-900 block sm:inline">📌 Catatan Khusus Dua Sesi Kuliah Berturut-turut:</span>
+                    <span class="text-slate-700">Jika ada dua sesi kuliah secara langsung berturut-turut, piket AC, purifier, serta disinfektan <strong>tidak perlu dimatikan/diulang</strong> setiap sesi. Tugas lainnya seperti pembersihan papan tulis dan persiapan spidol <strong>tetap dilaksanakan setiap sesi</strong>.</span>
                 </div>
             </div>
 
@@ -204,7 +204,7 @@
                             <i class="fa-solid fa-chart-line text-emerald-600"></i>
                             <span>Progress Total Hari Ini</span>
                         </span>
-                        <span id="overall-progress-text" class="font-bold text-emerald-700">0% (0/22)</span>
+                        <span id="overall-progress-text" class="font-bold text-emerald-700">0% (0/20)</span>
                     </div>
                     <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
                         <div id="overall-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
@@ -222,11 +222,11 @@
                             <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">1</span>
                             <div>
                                 <h3 class="font-bold text-sm">Sesi Perkuliahan 1</h3>
-                                <p class="text-[10px] text-slate-300">Sesi Pagi (11 Task)</p>
+                                <p class="text-[10px] text-slate-300">Sesi Pagi (10 Task)</p>
                             </div>
                         </div>
                         <span id="sesi1-badge" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                            0/11 Selesai
+                            0/10 Selesai
                         </span>
                     </div>
 
@@ -235,7 +235,7 @@
                         <div>
                             <div class="flex items-center space-x-2 mb-2.5 pb-1 border-b border-emerald-100">
                                 <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">SEBELUM KELAS</span>
-                                <span class="text-[11px] text-slate-500 font-medium">Persiapan Alat</span>
+                                <span class="text-[11px] text-slate-500 font-medium">Persiapan Sesi 1</span>
                             </div>
                             <div class="space-y-2" id="tasks-s1-before"></div>
                         </div>
@@ -244,7 +244,7 @@
                         <div>
                             <div class="flex items-center space-x-2 mb-2.5 pb-1 border-b border-indigo-100">
                                 <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 text-[10px] font-extrabold">SESUDAH KELAS</span>
-                                <span class="text-[11px] text-slate-500 font-medium">Penutupan & Selesai</span>
+                                <span class="text-[11px] text-slate-500 font-medium">Penutupan Sesi 1</span>
                             </div>
                             <div class="space-y-2" id="tasks-s1-after"></div>
                         </div>
@@ -258,11 +258,11 @@
                             <span class="w-7 h-7 rounded-lg bg-teal-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">2</span>
                             <div>
                                 <h3 class="font-bold text-sm">Sesi Perkuliahan 2</h3>
-                                <p class="text-[10px] text-slate-300">Sesi Siang (11 Task)</p>
+                                <p class="text-[10px] text-slate-300">Sesi Siang (10 Task)</p>
                             </div>
                         </div>
                         <span id="sesi2-badge" class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                            0/11 Selesai
+                            0/10 Selesai
                         </span>
                     </div>
 
@@ -371,17 +371,6 @@
                     <div class="relative w-full sm:w-64">
                         <input type="text" id="search-student-input" oninput="renderScheduleView()" placeholder="Cari nama mahasiswa..." class="w-full text-xs pl-9 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50 font-medium min-h-[40px]">
                         <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3 top-3 text-xs"></i>
-                    </div>
-                </div>
-
-                <!-- Swap Notice Banner -->
-                <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl flex items-start space-x-2.5 text-xs text-indigo-950">
-                    <i class="fa-solid fa-right-left text-indigo-600 text-sm mt-0.5 flex-shrink-0"></i>
-                    <div class="space-y-0.5">
-                        <span class="font-bold text-indigo-900 block">📌 Penukaran Jadwal Minggu ke-3:</span>
-                        <p class="text-[11px] leading-relaxed">
-                            <strong>Pasangan 13</strong> (Royya & Yeyen) bertugas pada <strong>Senin Minggu 3</strong>, dan <strong>Pasangan 11</strong> (Marsha & Nor Khosiah) bertugas pada <strong>Rabu Minggu 3</strong>. Pasangan 3 (Bilal & David) kembali ke slot aslinya di <strong>Rabu Minggu 1</strong>.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -595,8 +584,8 @@
             1: { id: 1, name1: "Adyuta Zaky Alaudin", name2: "Ahmed Zildan Zamroni" },
             2: { id: 2, name1: "Alfian Putra Herdiansyah", name2: "Bani Maslukhi Tamam" },
             3: { id: 3, name1: "Bilal Atha Nur Hidayat", name2: "David Ryu Saputra" },
-            4: { id: 4, name1: "Faruq Callan Mirjahaan", name2: "Galuh Yuga Pratama Suwandi" },
-            5: { id: 5, name1: "Ghazzy Al Barra Arsnad", name2: "Hirzi Adzka Nafidz" },
+            4: { id: 4, name1: "Faruq Callan Mirjahaan", name2: "Ghazzy Al Barra Arsnad" },
+            5: { id: 5, name1: "Galuh Yuga Pratama Suwandi", name2: "Hirzi Adzka Nafidz" },
             6: { id: 6, name1: "Muhammad Ilwan", name2: "Muhammad Rofiq" },
             7: { id: 7, name1: "Rafy Ahmad Sodikin", name2: "Rilo Pambudi Putra Listiono" },
             8: { id: 8, name1: "Rizky Alwiansyah Harahap", name2: "Surya Eddy Wijaya" },
@@ -610,11 +599,11 @@
         // Base Lineup mapping for 13 slots:
         // W1: Mon (P1), Tue (P2), Wed (P3), Thu (P4), Fri (P5)
         // W2: Mon (P6), Tue (P7), Wed (P8), Thu (P9), Fri (P10)
-        // W3: Mon (P13 - Royya & Yeyen), Tue (P12), Wed (P11 - Marsha & Nor Khosiah) -> SWAPPED PAIR 11 AND PAIR 13!
+        // W3: Mon (P13), Tue (P12), Wed (P11)
         const BASE_13_LINEUP = [
             RAW_PAIRS[1],  // Day 1 (W1 Mon)  -> Pair 1
             RAW_PAIRS[2],  // Day 2 (W1 Tue)  -> Pair 2
-            RAW_PAIRS[3],  // Day 3 (W1 Wed)  -> Pair 3 (Bilal & David - back to original!)
+            RAW_PAIRS[3],  // Day 3 (W1 Wed)  -> Pair 3
             RAW_PAIRS[4],  // Day 4 (W1 Thu)  -> Pair 4
             RAW_PAIRS[5],  // Day 5 (W1 Fri)  -> Pair 5
             RAW_PAIRS[6],  // Day 6 (W2 Mon)  -> Pair 6
@@ -622,9 +611,9 @@
             RAW_PAIRS[8],  // Day 8 (W2 Wed)  -> Pair 8
             RAW_PAIRS[9],  // Day 9 (W2 Thu)  -> Pair 9
             RAW_PAIRS[10], // Day 10 (W2 Fri) -> Pair 10
-            RAW_PAIRS[13], // Day 11 (W3 Mon) -> Pair 13 (Royya & Yeyen - SWAPPED WITH PAIR 11!)
+            RAW_PAIRS[13], // Day 11 (W3 Mon) -> Pair 13
             RAW_PAIRS[12], // Day 12 (W3 Tue) -> Pair 12
-            RAW_PAIRS[11]  // Day 13 (W3 Wed) -> Pair 11 (Marsha & Nor - SWAPPED WITH PAIR 13!)
+            RAW_PAIRS[11]  // Day 13 (W3 Wed) -> Pair 11
         ];
 
         // Week 2 Group Pairs (Pairs 6 to 10) for rotating Pairs 14 & 15 across cycles
@@ -646,81 +635,17 @@
             { id: "lcd_on", label: "Proyektor LCD dinyalakan sebelum tatap muka", icon: "fa-solid fa-desktop" },
             { id: "ac_on", label: "AC dinyalakan sebelum tatap muka", icon: "fa-solid fa-snowflake" },
             { id: "board_prep", label: "Spidol, penghapus, dan papan tulis siap digunakan", icon: "fa-solid fa-pen-line" },
-            { id: "disinfectant", label: "Kursi & meja dosen serta kursi mahasiswa disemprot disinfektan", icon: "fa-solid fa-spray-can-sparkles" },
-            { id: "purifier_on", label: "Perangkat Air Purifier dinyalakan", icon: "fa-solid fa-wind" },
-            { id: "turbo_on", label: "Perangkat Turbo dinyalakan (~45 menit awal)", icon: "fa-solid fa-gauge-high" }
+            { id: "disinfectant", label: "Kursi & meja dosen serta kursi mahasiswa disemprot cairan disinfektan", icon: "fa-solid fa-spray-can-sparkles" },
+            { id: "purifier_on", label: "Perangkat purifier dinyalakan sebelum tatap muka", icon: "fa-solid fa-wind" },
+            { id: "turbo_on", label: "Perangkat turbo dinyalakan mulai sebelum tatap muka (~45 menit)", icon: "fa-solid fa-gauge-high" }
         ];
 
         const TASKS_AFTER = [
             { id: "lcd_off", label: "Proyektor LCD dimatikan selesai tatap muka", icon: "fa-solid fa-power-off" },
             { id: "ac_off", label: "AC dimatikan selesai tatap muka", icon: "fa-solid fa-snowflake" },
-            { id: "board_clean", label: "Papan tulis dibersihkan & spidol/penghapus dirapikan", icon: "fa-solid fa-eraser" },
-            { id: "purifier_off", label: "Perangkat Air Purifier dimatikan", icon: "fa-solid fa-plug-circle-xmark" },
-            { id: "turbo_off", label: "Perangkat Turbo dimatikan", icon: "fa-solid fa-circle-stop" }
+            { id: "board_clean", label: "Papan tulis dibersihkan kembali", icon: "fa-solid fa-eraser" },
+            { id: "purifier_off", label: "Perangkat purifier dimatikan selesai tatap muka", icon: "fa-solid fa-plug-circle-xmark" }
         ];
-
-        function getCyclePairs(cycleIdx) {
-            const lineup = BASE_13_LINEUP.map(p => ({ ...p, isExtra: false }));
-
-            // Cycle rotation formula for Pairs 14 & 15 from Week 2 group:
-            // Cycle 0: Day 14 = Pair 6 (index 0), Day 15 = Pair 10 (index 4)
-            const w2Idx14 = ((0 + cycleIdx) % 5 + 5) % 5;
-            const w2Idx15 = ((4 + cycleIdx) % 5 + 5) % 5;
-
-            const pair14Obj = WEEK2_GROUP_PAIRS[w2Idx14];
-            const pair15Obj = WEEK2_GROUP_PAIRS[w2Idx15];
-
-            lineup.push({
-                id: 14,
-                name1: pair14Obj.name1,
-                name2: pair14Obj.name2,
-                isExtra: true,
-                basePairId: pair14Obj.id
-            });
-
-            lineup.push({
-                id: 15,
-                name1: pair15Obj.name1,
-                name2: pair15Obj.name2,
-                isExtra: true,
-                basePairId: pair15Obj.id
-            });
-
-            return lineup;
-        }
-
-        function getDutyOfficersForDate(dateObj) {
-            const dayOfWeek = dateObj.getDay(); // 0: Sun, 1: Mon, ... 6: Sat
-            
-            if (dayOfWeek === 0 || dayOfWeek === 6) {
-                return { pair: null, message: "Akhir Pekan (Tidak Ada Piket)", cycleIdx: 0, dayIdx: -1 };
-            }
-
-            const diffTime = dateObj - BASE_ANCHOR_DATE;
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            
-            const fullWeeks = Math.floor(diffDays / 7);
-            const extraDays = ((diffDays % 7) + 7) % 7;
-            const workingDays = (fullWeeks * 5) + Math.min(extraDays, 5);
-
-            const cycleIdx = Math.floor(workingDays / 15);
-            const workingDayInCycle = ((workingDays % 15) + 15) % 15;
-
-            const cycleLineup = getCyclePairs(cycleIdx);
-            const pair = cycleLineup[workingDayInCycle];
-
-            return {
-                pair: pair,
-                message: `${pair.name1} & ${pair.name2}`,
-                cycleIdx: cycleIdx,
-                dayIdx: workingDayInCycle
-            };
-        }
-
-        function getCycleStartDate(cycleIdx) {
-            const daysOffset = cycleIdx * 21; // 3 calendar weeks = 21 days
-            return new Date(BASE_ANCHOR_DATE.getTime() + (daysOffset * 24 * 60 * 60 * 1000));
-        }
 
         window.addEventListener('DOMContentLoaded', () => {
             initDatePicker();
@@ -851,10 +776,10 @@
             document.getElementById('overall-progress-bar').style.width = `${percentage}%`;
 
             const s1Count = countCheckedByPrefix('s1_');
-            document.getElementById('sesi1-badge').innerText = `${s1Count}/11 Selesai`;
+            document.getElementById('sesi1-badge').innerText = `${s1Count}/10 Selesai`;
 
             const s2Count = countCheckedByPrefix('s2_');
-            document.getElementById('sesi2-badge').innerText = `${s2Count}/11 Selesai`;
+            document.getElementById('sesi2-badge').innerText = `${s2Count}/10 Selesai`;
         }
 
         function countCheckedByPrefix(prefix) {
@@ -903,8 +828,8 @@
             report += `👥 *Petugas Piket:* ${officersText}\n\n`;
             
             report += `*STATUS RUANGAN KELAS:*\n`;
-            report += `1️⃣ *Sesi Perkuliahan 1:* ${s1Count}/11 Tugas ${s1Count === 11 ? '✅ Selesai' : '⏳ Terisi'}\n`;
-            report += `2️⃣ *Sesi Perkuliahan 2:* ${s2Count}/11 Tugas ${s2Count === 11 ? '✅ Selesai' : '⏳ Terisi'}\n\n`;
+            report += `1️⃣ *Sesi Perkuliahan 1:* ${s1Count}/10 Tugas ${s1Count === 10 ? '✅ Selesai' : '⏳ Terisi'}\n`;
+            report += `2️⃣ *Sesi Perkuliahan 2:* ${s2Count}/10 Tugas ${s2Count === 10 ? '✅ Selesai' : '⏳ Terisi'}\n\n`;
 
             report += `📝 *Catatan Tambahan:* ${notesText}\n\n`;
             report += `📌 _Laporan via Monitoring Piket Kelas PMI 1A_`;
@@ -920,6 +845,69 @@
                 showToast("Gagal menyalin laporan", "error");
             }
             document.body.removeChild(tempInput);
+        }
+
+        function getCyclePairs(cycleIdx) {
+            const lineup = BASE_13_LINEUP.map(p => ({ ...p, isExtra: false }));
+
+            // Cycle rotation formula for Pairs 14 & 15 from Week 2 group:
+            // Cycle 0: Day 14 = Pair 6 (index 0: Ilwan & Rofiq), Day 15 = Pair 10 (index 4: Jasmine & Mahrin)
+            const w2Idx14 = ((0 + cycleIdx) % 5 + 5) % 5;
+            const w2Idx15 = ((4 + cycleIdx) % 5 + 5) % 5;
+
+            const pair14Obj = WEEK2_GROUP_PAIRS[w2Idx14];
+            const pair15Obj = WEEK2_GROUP_PAIRS[w2Idx15];
+
+            lineup.push({
+                id: 14,
+                name1: pair14Obj.name1,
+                name2: pair14Obj.name2,
+                isExtra: true,
+                basePairId: pair14Obj.id
+            });
+
+            lineup.push({
+                id: 15,
+                name1: pair15Obj.name1,
+                name2: pair15Obj.name2,
+                isExtra: true,
+                basePairId: pair15Obj.id
+            });
+
+            return lineup;
+        }
+
+        function getDutyOfficersForDate(dateObj) {
+            const dayOfWeek = dateObj.getDay(); // 0: Sun, 1: Mon, ... 6: Sat
+            
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                return { pair: null, message: "Akhir Pekan (Tidak Ada Piket)", cycleIdx: 0, dayIdx: -1 };
+            }
+
+            const diffTime = dateObj - BASE_ANCHOR_DATE;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            const fullWeeks = Math.floor(diffDays / 7);
+            const extraDays = ((diffDays % 7) + 7) % 7;
+            const workingDays = (fullWeeks * 5) + Math.min(extraDays, 5);
+
+            const cycleIdx = Math.floor(workingDays / 15);
+            const workingDayInCycle = ((workingDays % 15) + 15) % 15;
+
+            const cycleLineup = getCyclePairs(cycleIdx);
+            const pair = cycleLineup[workingDayInCycle];
+
+            return {
+                pair: pair,
+                message: `${pair.name1} & ${pair.name2}`,
+                cycleIdx: cycleIdx,
+                dayIdx: workingDayInCycle
+            };
+        }
+
+        function getCycleStartDate(cycleIdx) {
+            const daysOffset = cycleIdx * 21; // 3 calendar weeks = 21 days
+            return new Date(BASE_ANCHOR_DATE.getTime() + (daysOffset * 24 * 60 * 60 * 1000));
         }
 
         function setScheduleViewMode(mode) {
@@ -1138,9 +1126,9 @@
                     title: "Minggu Rotasi 3",
                     badge: "Hari 11 - 15",
                     items: [
-                        { day: "Senin (Penukaran)", pair: cycleLineup[10] },
+                        { day: "Senin", pair: cycleLineup[10] },
                         { day: "Selasa", pair: cycleLineup[11] },
-                        { day: "Rabu (Penukaran)", pair: cycleLineup[12] },
+                        { day: "Rabu", pair: cycleLineup[12] },
                         { day: "Kamis", pair: cycleLineup[13] },
                         { day: "Jumat", pair: cycleLineup[14] }
                     ]
